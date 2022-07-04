@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { NombresSimpsons, INFO_SIMPSONS } from "./constants";
-import { BioContainer, BioDesc, BioImg, BioName, BioButton, ButtonsContainer } from "./styled";
+import {
+  BioContainer,
+  BioDesc,
+  BioImg,
+  BioName,
+  BioButton,
+  ButtonsContainer,
+} from "./styled";
 
 const Bio = () => {
   const [bioActiva, setBioActiva] = useState(
@@ -15,9 +22,7 @@ const Bio = () => {
       <BioButton
         key={nombre as string}
         onClick={() => onClick(nombre as NombresSimpsons)}
-        active={
-          bioActiva.id === nombre
-        }
+        active={bioActiva.id === nombre}
       >
         {nombre}
       </BioButton>
@@ -25,21 +30,18 @@ const Bio = () => {
   };
 
   return (
-     <BioContainer>
+    <BioContainer>
       <ButtonsContainer>{crearBotones()}</ButtonsContainer>
       <div>
         <div>
-          <BioImg
-            src={bioActiva.image}
-            alt={bioActiva.nombre}
-          />
+          <BioImg src={bioActiva.image} alt={bioActiva.nombre} />
         </div>
         <div>
-          <BioName >{bioActiva.nombre}</BioName>
+          <BioName>{bioActiva.nombre}</BioName>
           <BioDesc>{bioActiva.descripcion}</BioDesc>
         </div>
       </div>
-      </BioContainer>
+    </BioContainer>
   );
 };
 

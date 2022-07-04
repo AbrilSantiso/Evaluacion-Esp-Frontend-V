@@ -48,14 +48,13 @@ export const BioButton = styled.button<{ active: boolean }>`
     cursor: pointer;
   }
 
-  ${(props) =>
-    props.active
-      ? css`
-          background-color: #fdd835;
-          color: whitesmoke;
-          text-shadow: 2px 2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000,
-            -2px -2px 0 #000000, 2px 0px 0 #000000, 0px 2px 0 #000000,
-            -2px 0px 0 #000000, 0px -2px 0 #000000;
-        `
-      : css``}
+  ${({ active }) =>
+    active &&
+    css`
+      background-color: #fdd835;
+      color: whitesmoke;
+      text-shadow: 2px 2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000,
+        -2px -2px 0 #000000, 2px 0px 0 #000000, 0px 2px 0 #000000,
+        -2px 0px 0 #000000, 0px -2px 0 #000000;
+    `}
 `;
