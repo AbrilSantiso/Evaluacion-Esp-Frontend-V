@@ -22,10 +22,7 @@ export const generateHandlers = () => {
       ],
     handlers = [
       rest.get(API_URL, (req, res, ctx) => {
-        if (req.url.searchParams.get("error")) {
-          return res(ctx.status(400));
-        }
-
+        
         if (req.url.searchParams.get("character")=== "Marge") {
             return res(ctx.status(200),
             ctx.json({

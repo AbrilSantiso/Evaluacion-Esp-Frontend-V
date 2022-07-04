@@ -13,7 +13,63 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("Cita", () => {
-  it("should render properly a random quote", async () => {
+
+  describe("Cuando la query se esta ejecutando", () => {
+  it("debería renderizar correctamente el mensaje de cargando", async () => {
+    render(<Cita/>)
+    const button = screen.getByText("Obtener cita aleatoria");
+    userEvent.click(button)
+    await waitFor(() => {
+     const loading = screen.getByText("CARGANDO...");   
+      expect(loading).toBeInTheDocument();
+    });
+  });
+})
+
+describe("Cuando escribimos el nombre de un Simpson en el input", () => {
+  it("debería renderizar el botón de 'Obtener cita' en lugar de el botón de 'Obtener cita aleatoria'", async () => {
+    render(<Cita/>)
+    const input = screen.getByPlaceholderText("Ingresa el nombre del autor")
+    userEvent.type(input, "Marge");
+    await waitFor(() => {
+      const buttonCita = screen.getByText("Obtener Cita");;
+      expect(buttonCita).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      const buttonCitaAleatoria = screen.queryByText("Obtener cita aleatoria");
+      expect(buttonCitaAleatoria).not.toBeInTheDocument();
+    });
+  });
+
+  it("debería renderizar una cita del Simpson ingresado (Marge)", async () => {
+    render(<Cita/>)
+    const input = screen.getByPlaceholderText("Ingresa el nombre del autor")
+    userEvent.type(input, "Marge");
+    const buttonCita = await screen.findByText("Obtener Cita");
+    userEvent.click(buttonCita)
+    await waitFor(() => {
+      const autor = screen.getByTestId("author")   
+       expect(autor).toEqual("Marge Simpson");
+     });
+  });
+})
+
+describe("Cuando escribimos números en el input", () => {
+  it("debería renderizar un mensaje de error", async () => {
+    render(<Cita/>)
+    const input = screen.getByPlaceholderText("Ingresa el nombre del autor")
+    userEvent.type(input, "5678");
+    const buttonCita = await screen.findByText("Obtener Cita");
+    userEvent.click(buttonCita)
+    await waitFor(() => {
+      const mensajeError = screen.getByText("Por favor ingrese un nombre válido")   
+       expect(mensajeError).toBeInTheDocument();
+     });
+  });
+})
+
+/*
+  it("Debería renderizar correctamente una cita random", async () => {
     render(<Cita/>)
     const button = screen.getByText("Obtener cita aleatoria");
     userEvent.click(button)
@@ -21,28 +77,6 @@ describe("Cita", () => {
      const cita = screen.getByText("Ahh! Sweet liquor eases the pain.");   
       expect(cita).toBeInTheDocument();
     });
-  });
+  });*/
 })
-/*
-  it("should set the status to true when there's an error", async () => {
-    const hook = renderHook(() =>
-      useApi("https://rickandmortyapi.com/api/character?error=true")
-    );
 
-    await waitFor(() => {
-      expect(hook.result.current.error).toBe(true);
-    });
-  });
-
-  it("should store the loading state properly", async () => {
-    const hook = renderHook(() =>
-      useApi("https://rickandmortyapi.com/api/character")
-    );
-
-    expect(hook.result.current.loading).toBe(true);
-    await waitFor(() => {
-      expect(hook.result.current.loading).toBe(false);
-    });
-  });
-});
-*/
