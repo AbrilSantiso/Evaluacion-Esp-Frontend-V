@@ -19,7 +19,6 @@ export const obtenerCitaAsync = createAsyncThunk(
   async (personaje: string) => {
     try {
       const cita = await obtenerCita(personaje);
-
       return cita;
     } catch (err) {
       throw err;
